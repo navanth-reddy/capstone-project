@@ -27,7 +27,7 @@ public class CommentService {
 	
 	public CommentDTO postComment(Long id,CommentDTO commentDTO) {
         BlogEntity blog = blogRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Blog not found with ID: " + commentDTO.getBlogId()));
+                .orElseThrow(() -> new ResourceNotFoundException("No Blog Available with Id : " + commentDTO.getBlogId()));
 
         CommentEntity comment = new CommentEntity();
         comment.setComment(commentDTO.getComment());
@@ -38,15 +38,9 @@ public class CommentService {
         return commentDTO;
     }
 	
-//	public CommentDTO getCommentById(Long id) {
-//		
-//		CommentEntity comment=commentRepository.findById(id)
-//				.orElseThrow(() -> new ResourceNotFoundException("Blog not found with ID: " + id));
-//		
-//	}
 	public CommentDTO getCommentById(Long commentId) {
         CommentEntity comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new RuntimeException("Comment not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Comment not found with the blog id "+commentId));
 
         return mapToDTO(comment);
     }

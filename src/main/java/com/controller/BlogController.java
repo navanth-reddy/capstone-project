@@ -20,10 +20,6 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/blogs")
 public class BlogController {
 
-	@GetMapping()
-	public String greet() {
-		return "Hello welcome";
-	}
 
 	private final BlogService blogService;
 
@@ -38,19 +34,27 @@ public class BlogController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<BlogDTO> getBlogById(@PathVariable Long id) {
-		return ResponseEntity.ok(blogService.getBlogById(id));
+	public ResponseEntity<?> getBlogById(@PathVariable Long id) {
+		BlogDTO blog=blogService.getBlogById(id);
+		if (blog == null) {
+            return new ResponseEntity<String>("The Blog was not found with id"+id,HttpStatus.NOT_FOUND);
+        }
+		return new ResponseEntity<BlogDTO>(blog,HttpStatus.OK);
 	}
 	
 	@PutMapping("/{id}")
-    public ResponseEntity<BlogDTO> updateBlog(@PathVariable Long id, @Valid @RequestBody BlogDTO blogDto) {
-        return ResponseEntity.ok(blogService.updateBlog(id, blogDto));
+    public ResponseEntity<?> updateBlog(@PathVariable Long id, @Valid @RequestBody BlogDTO blogDto) {
+        BlogDTO blog=blogService.updateBlog(id, blogDto);
+		if (blog == null) {
+            return new ResponseEntity<String>("The Blog was not found with id"+id,HttpStatus.NOT_FOUND);
+        }
+		return new ResponseEntity<BlogDTO>(blog,HttpStatus.OK);
     }
 	
 	@DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> deleteBlog(@PathVariable Long id) {
+    public ResponseEntity<String> deleteBlog(@PathVariable Long id){
         blogService.deleteBlog(id);
-        return ResponseEntity.ok(true);
+        return ResponseEntity.ok("The blog deleted Successfully with id"+id);
     }
 
 }
