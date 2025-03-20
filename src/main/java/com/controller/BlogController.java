@@ -19,15 +19,22 @@ import com.service.BlogService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
-@RestController
-@RequestMapping("/api/blogs")
+@RestController // Marks this class as a REST API controller
+@RequestMapping("/api/blogs")  // Base URL for all endpoints in this controller
 public class BlogController {
 
 	private final BlogService blogService;
 
+	// Constructor-based dependency injection of BlogService
 	public BlogController(BlogService blogService) {
 		this.blogService = blogService;
 	}
+	
+	/**
+	 * Endpoint to create a new blog.
+	 * 
+	 * @return ResponseEntity containing the created BlogDTO and HTTP status 201 (Created).
+	 */
 
 	@PostMapping
 	@Tag(name="Add the Blog")
@@ -35,34 +42,50 @@ public class BlogController {
 		BlogDTO createdBlog = blogService.createBlog(blogDto);
 		return new ResponseEntity<>(createdBlog, HttpStatus.CREATED);
 	}
-
+	
+	/**
+	 * Endpoint to fetch all blogs.
+	 * @return ResponseEntity containing the list of all BlogDTOs and HTTP status 200 (OK).
+	 */
 	@GetMapping
 	@Tag(name="Get all the Blogs")
 	public ResponseEntity<List<BlogDTO>> getAllBlogs() {
 		List<BlogDTO> blogs = blogService.getAllBlogs();
 		return ResponseEntity.ok(blogs);
 	}
-
+	
+	
+	/**
+	 * Endpoint to fetch a specific blog by ID.
+	 * 
+	 * @return ResponseEntity containing the BlogDTO and HTTP status 200 (OK).
+	 *         If the blog is not found, an exception is thrown by the service layer.
+	 */
 	@GetMapping("/{id}")
 	@Tag(name="Get the Blog By id")
 	public ResponseEntity<?> getBlogById(@PathVariable Long id) {
 		BlogDTO blog = blogService.getBlogById(id);
-		if (blog == null) {
-			return new ResponseEntity<String>("The Blog was not found with id" + id, HttpStatus.NOT_FOUND);
-		}
 		return new ResponseEntity<BlogDTO>(blog, HttpStatus.OK);
 	}
 
+	/**
+	 * Endpoint to update an existing blog by ID.
+	 * @param id The ID of the blog to update.
+	 * @param blogDto The updated blog data.
+	 * @return ResponseEntity containing the updated BlogDTO and HTTP status 200 (OK).
+	 */
 	@PutMapping("/{id}")
 	@Tag(name="Update the Blog")
 	public ResponseEntity<?> updateBlog(@PathVariable Long id, @Valid @RequestBody BlogDTO blogDto) {
 		BlogDTO blog = blogService.updateBlog(id, blogDto);
-		if (blog == null) {
-			return new ResponseEntity<String>("The Blog was not found with id" + id, HttpStatus.NOT_FOUND);
-		}
 		return new ResponseEntity<BlogDTO>(blog, HttpStatus.OK);
 	}
 
+	/**
+	 * Endpoint to delete a blog by ID.
+	 * @param id The ID of the blog to delete.
+	 * @return ResponseEntity with a success message and HTTP status 200 (OK).
+	 */
 	@DeleteMapping("/{id}")
 	@Tag(name="Delete the Blog")
 	public ResponseEntity<String> deleteBlog(@PathVariable Long id) {

@@ -12,19 +12,21 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
-@Entity
-@Table(name = "comments")
+@Entity   // Marks this class as a JPA entity that maps to a database table
+@Table(name = "comments")  // Specifies that this entity maps to the "comments" table in the database.
 public class CommentEntity {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "comment_id")
+	@Id   // Specifies that this field is the primary key.
+	@GeneratedValue(strategy = GenerationType.IDENTITY)  // Uses auto-increment strategy for ID.
+	@Column(name = "comment_id")  // Maps this field to the "comment_id" column in the "comments" table.
 	private Long id;
 
 	@NotNull
 	private String comment;
 
-	@ManyToOne
+	@ManyToOne  // Defines a many-to-one relationship (many comments belong to one blog).
+	// Specifies the foreign key column in the "comments" table that references the "blogs" table.
+    // `nullable = false` ensures that every comment must be associated with a blog.
 	@JoinColumn(name = "blog", nullable = false)
 	private BlogEntity blog;
 

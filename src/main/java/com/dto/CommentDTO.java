@@ -4,6 +4,7 @@ package com.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+//Defines a Data Transfer Object (DTO) for comments.
 public class CommentDTO {
 	
 	private Long id;

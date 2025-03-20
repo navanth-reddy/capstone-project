@@ -16,8 +16,8 @@ import com.service.CommentService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
-@RestController
-@RequestMapping("/api/blogs")
+@RestController  // Marks this class as a REST API controller
+@RequestMapping("/api/blogs")  // Base URL for all endpoints in this controller
 public class CommentController {
 	
 	private final CommentService commentService;
@@ -26,12 +26,27 @@ public class CommentController {
         this.commentService = commentService;
     }
 
+    
+    
+    /**
+     * Endpoint to add a comment to a specific blog.
+     * @param blogId The ID of the blog to which the comment belongs.
+     * @param commentDto The comment data received in the request body.
+     * @return ResponseEntity containing the saved CommentDTO and HTTP status 200 (OK).
+     */
     @PostMapping("/{blogId}")
     @Tag(name="Add the Comment")
     public ResponseEntity<CommentDTO> postComment(@PathVariable Long blogId, @Valid @RequestBody CommentDTO commentDto) {
     	commentDto.setBlogId(blogId); 
         return ResponseEntity.ok(commentService.postComment(blogId,commentDto));
     }
+    
+    
+    /**
+     * Endpoint to fetch all comments for a specific blog.
+     * @param blogId The ID of the blog.
+     * @return ResponseEntity containing the list of comments for the blog and HTTP status 200 (OK).
+     */
     @GetMapping("/{blogId}/comments")
     @Tag(name="Get all the Comments based on blog id")
     public ResponseEntity<List<CommentDTO>> getCommentsByBlogId(@PathVariable Long blogId) {
@@ -39,6 +54,12 @@ public class CommentController {
         return ResponseEntity.ok(comments);
     }
     
+    
+    /**
+     * Endpoint to fetch a specific comment by its ID.
+     * @param commentId The ID of the comment.
+     * @return ResponseEntity containing the CommentDTO and HTTP status 200 (OK).
+     */
     @GetMapping("/comment/{commentId}")
     @Tag(name="Get the comment by id")
     public ResponseEntity<CommentDTO> getCommentById(@PathVariable Long commentId) {

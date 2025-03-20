@@ -15,23 +15,28 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
-@Entity
-@Table(name = "blogs")
+@Entity // Marks this class as a JPA entity, meaning it maps to a database table.
+@Table(name = "blogs") // Specifies that this entity maps to the "blogs" table in the database.
 public class BlogEntity {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="blog_id")
+	
+	@Id    // Marks this field as the primary key.
+	@GeneratedValue(strategy = GenerationType.IDENTITY)  // Uses auto-increment strategy for ID.
+	@Column(name = "blog_id")  // Maps this field to the "blog_id" column in the "blogs" table.
 	private Long id;
 
-	//@NotNull
+	@NotNull
 	private String title;
 
 	@NotNull
 	private String content;
 
-	@OneToMany(mappedBy = "blog",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	// Defines a one-to-many relationship with CommentEntity.
+    // `mappedBy = "blog"` means this relationship is managed by the `blog` field in CommentEntity.
+    // `cascade = CascadeType.ALL` ensures that any changes (persist, remove, etc.) to BlogEntity
+    // are also applied to related CommentEntity objects.
+    // `fetch = FetchType.LAZY` means that comments will be loaded only when explicitly accessed.
+	@OneToMany(mappedBy = "blog", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<CommentEntity> comments;
-	
 
 	public Long getId() {
 		return id;
@@ -64,6 +69,5 @@ public class BlogEntity {
 	public void setComments(List<CommentEntity> comments) {
 		this.comments = comments;
 	}
-	
 
 }
