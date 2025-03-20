@@ -1,8 +1,10 @@
 package com.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
-import com.dto.BlogDTO;
 import com.dto.CommentDTO;
 import com.entity.BlogEntity;
 import com.entity.CommentEntity;
@@ -43,6 +45,18 @@ public class CommentService {
                 .orElseThrow(() -> new ResourceNotFoundException("Comment not found with the blog id "+commentId));
 
         return mapToDTO(comment);
+    }
+	public List<CommentDTO> getCommentsByBlogId(Long blogId) {
+        // Check if blog exists
+        if (!blogRepository.existsById(blogId)) {
+            throw new ResourceNotFoundException("Blog not found with ID: " + blogId);
+        }
+
+        // Fetch comments and map to DTO
+        return commentRepository.findByBlogId(blogId)
+                .stream()
+                .map(comment -> mapToDTO(comment))
+                .collect(Collectors.toList());
     }
 	
 	private CommentDTO mapToDTO(CommentEntity comment) {
