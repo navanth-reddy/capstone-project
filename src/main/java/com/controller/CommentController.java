@@ -30,9 +30,9 @@ public class CommentController {
     
     /**
      * Endpoint to add a comment to a specific blog.
-     * @param blogId The ID of the blog to which the comment belongs.
-     * @param commentDto The comment data received in the request body.
-     * @return ResponseEntity containing the saved CommentDTO and HTTP status 200 (OK).
+     * blogId The ID of the blog to which the comment belongs.
+     * commentDto The comment data received in the request body.
+     * ResponseEntity containing the saved CommentDTO and HTTP status 200 (OK).
      */
     @PostMapping("/{blogId}")
     @Tag(name="Add the Comment")
@@ -44,8 +44,8 @@ public class CommentController {
     
     /**
      * Endpoint to fetch all comments for a specific blog.
-     * @param blogId The ID of the blog.
-     * @return ResponseEntity containing the list of comments for the blog and HTTP status 200 (OK).
+     * blogId The ID of the blog.
+     * ResponseEntity containing the list of comments for the blog and HTTP status 200 (OK).
      */
     @GetMapping("/{blogId}/comments")
     @Tag(name="Get all the Comments based on blog id")
@@ -57,8 +57,8 @@ public class CommentController {
     
     /**
      * Endpoint to fetch a specific comment by its ID.
-     * @param commentId The ID of the comment.
-     * @return ResponseEntity containing the CommentDTO and HTTP status 200 (OK).
+     * commentId The ID of the comment.
+     * ResponseEntity containing the CommentDTO and HTTP status 200 (OK).
      */
     @GetMapping("/comment/{commentId}")
     @Tag(name="Get the comment by id")

@@ -59,7 +59,7 @@ public class CommentService {
 			throw new InvalidBlogIdException("Negative IDs are not allowed.");
 		}
 		CommentEntity comment = commentRepository.findById(commentId)
-				.orElseThrow(() -> new ResourceNotFoundException("Comment not found with the blog id " + commentId));
+				.orElseThrow(() -> new ResourceNotFoundException("Comment not found with the comment id :" + commentId));
 
 		return mapToDTO(comment);
 	}

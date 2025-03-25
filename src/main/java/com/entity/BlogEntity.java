@@ -2,7 +2,7 @@ package com.entity;
 
 import java.util.List;
 
-import com.entity.CommentEntity;
+
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
